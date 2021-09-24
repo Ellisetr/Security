@@ -1,5 +1,4 @@
-import LAB1_Decrypt
-import LAB1_Encrypt
+from LAB1 import LAB1_Decrypt, LAB1_Encrypt
 
 RUSSIAN_ALPHABET = ['А', 'Б', 'В', 'Г', 'Д', 'Е', 'Ж', 'З', 'И', 'Й', 'К', 'Л', 'М', 'Н', 'О', 'П', 'Р', 'С', 'Т',
                     'У', 'Ф', 'Х', 'Ц', 'Ч', 'Ш', 'Щ', 'Ъ', 'Ы', 'Ь', 'Э', 'Ю', 'Я']
@@ -23,13 +22,13 @@ RUSSIAN_LETTERS_FREQUENCY_BEGIN = {'о': 0.0963, 'е': 0.096, 'а': 0.062, 'и':
                              'ю': 0.001, 'ш': 0.0036, 'ц': 0.004, 'щ': 0.003, 'э': 0.003, 'ф': 0.002, 'ъ': 0.0004}
 
 if __name__ == '__main__':
-    Encrypt = LAB1_Encrypt.Encrypt(3, 'ключ', 'input_text.txt', RUSSIAN_ALPHABET)
+    Encrypt = LAB1_Encrypt.Encrypt(3, 'ключ', 'LAB1/input_text.txt', RUSSIAN_ALPHABET)
     print("Encrypted alphabet:")
     print(Encrypt.alphabetDict)
-    print("Encrypted text:")
-    print(Encrypt.encryptedText)
+    print("\n"+"Encrypted text:")
+    print(Encrypt.encryptedText+"\n")
     Decrypt = LAB1_Decrypt.Decrypt(Encrypt.encryptedText, RUSSIAN_ALPHABET_FREQUENCY, RUSSIAN_ALPHABET)
     print("Decrypted monogram text:")
-    print(Decrypt.input_text1)
+    print(Decrypt.output_monogram_decr + "\n")
     print("Decrypted bigram text:")
-    print(Decrypt.input_text2)
+    print(Decrypt.output_bigram_decr)

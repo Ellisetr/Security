@@ -141,3 +141,5 @@ cython_debug/
 */desktop.ini
 
 .vscode/*
+
+.LAB1/desktop.ini
