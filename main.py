@@ -1,4 +1,5 @@
 from LAB1 import LAB1_Start
+from DiffieHellman import LAB2_Start
 
 RUSSIAN_ALPHABET = ['А', 'Б', 'В', 'Г', 'Д', 'Е', 'Ж', 'З', 'И', 'Й', 'К', 'Л', 'М', 'Н', 'О', 'П', 'Р', 'С', 'Т',
                     'У', 'Ф', 'Х', 'Ц', 'Ч', 'Ш', 'Щ', 'Ъ', 'Ы', 'Ь', 'Э', 'Ю', 'Я']
@@ -17,3 +18,4 @@ RUSSIAN_ALPHABET_FREQUENCY = {'о': 0.01097, 'а': 0.00845, 'е': 0.00801, 'н':
 
 if __name__ == '__main__':
     LAB1_Start.Start()
+    LAB2_Start.Start()
