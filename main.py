@@ -1,4 +1,4 @@
-from LAB1 import LAB1_Decrypt, LAB1_Encrypt
+from LAB1 import LAB1_Start
 
 RUSSIAN_ALPHABET = ['А', 'Б', 'В', 'Г', 'Д', 'Е', 'Ж', 'З', 'И', 'Й', 'К', 'Л', 'М', 'Н', 'О', 'П', 'Р', 'С', 'Т',
                     'У', 'Ф', 'Х', 'Ц', 'Ч', 'Ш', 'Щ', 'Ъ', 'Ы', 'Ь', 'Э', 'Ю', 'Я']
@@ -15,20 +15,5 @@ RUSSIAN_ALPHABET_FREQUENCY = {'о': 0.01097, 'а': 0.00845, 'е': 0.00801, 'н':
                               'э': 0.00094, 'ш': 0.00073, 'ю': 0.00064, 'ц': 0.00048, 'ч': 0.00036, 'ж': 0.00032,
                               'ф': 0.00026, 'ъ': 0.00004}
 
-RUSSIAN_LETTERS_FREQUENCY_BEGIN = {'о': 0.0963, 'е': 0.096, 'а': 0.062, 'и': 0.0766, 'т': 0.0313, 'н': 0.0692,
-                             'с': 0.0905, 'р': 0.0444, 'в': 0.0953, 'л': 0.0061, 'к': 0.0043, 'м': 0.0293,
-                             'д': 0.0551, 'п': 0.1539, 'у': 0.0332, 'я': 0.0019, 'ы': 0, 'з': 0.0283,
-                             'б': 0.044, 'ь': 0, 'г': 0.0183, 'ч': 0.0146, 'й': 0, 'х': 0.0042, 'ж': 0.0024,
-                             'ю': 0.001, 'ш': 0.0036, 'ц': 0.004, 'щ': 0.003, 'э': 0.003, 'ф': 0.002, 'ъ': 0.0004}
-
 if __name__ == '__main__':
-    Encrypt = LAB1_Encrypt.Encrypt(3, 'ключ', 'LAB1/input_text.txt', RUSSIAN_ALPHABET)
-    print("Encrypted alphabet:")
-    print(Encrypt.alphabetDict)
-    print("\n"+"Encrypted text:")
-    print(Encrypt.encryptedText+"\n")
-    Decrypt = LAB1_Decrypt.Decrypt(Encrypt.encryptedText, RUSSIAN_ALPHABET_FREQUENCY, RUSSIAN_ALPHABET)
-    print("Decrypted monogram text:")
-    print(Decrypt.output_monogram_decr + "\n")
-    print("Decrypted bigram text:")
-    print(Decrypt.output_bigram_decr)
+    LAB1_Start.Start()
