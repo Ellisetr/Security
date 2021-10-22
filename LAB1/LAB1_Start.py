@@ -12,7 +12,7 @@ def Start():
     print("Decrypted monogram text:")
     print(Decrypt.output_monogram_decr + "\n")
     print("Decrypted bigram text:")
-    print(Decrypt.output_bigram_decr)
+    print(Decrypt.output_bigram_decr+"\n")
 
 
 

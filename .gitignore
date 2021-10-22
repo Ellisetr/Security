@@ -138,8 +138,6 @@ dmypy.json
 # Cython debug symbols
 cython_debug/
 
-*/desktop.ini
+**/desktop.ini
 
 .vscode/*
-
-.LAB1/desktop.ini

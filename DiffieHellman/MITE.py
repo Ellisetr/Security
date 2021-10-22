@@ -1,4 +1,4 @@
-class ManInTheEnd(object):
+class ManInTheEnd:
     def __init__(self, public_key1, public_key2, private_key, name):
         self.name = name
         self.public_key1 = public_key1
@@ -9,14 +9,14 @@ class ManInTheEnd(object):
     def generate_partial_key(self):
         partial_key = self.public_key1 ** self.private_key
         partial_key = partial_key % self.public_key2
-        print(self.name+" partial key is",partial_key)
+        print(self.name + " partial key is", partial_key)
         return partial_key
 
     def generate_full_key(self, partial_key_r):
         full_key = partial_key_r ** self.private_key
         full_key = full_key % self.public_key2
         self.full_key = full_key
-        print(self.name + " full key is",full_key)
+        print(self.name + " full key is", full_key)
         return full_key
 
     def encrypt_message(self, message):
@@ -32,5 +32,5 @@ class ManInTheEnd(object):
         key = self.full_key
         for c in encrypted_message:
             decrypted_message += chr(ord(c) - key)
-        print(self.name+" received: "+decrypted_message+"\n")
+        print(self.name + " received: " + decrypted_message + "\n")
         return decrypted_message

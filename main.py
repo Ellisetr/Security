@@ -1,5 +1,8 @@
 from LAB1 import LAB1_Start
 from DiffieHellman import LAB2_Start
+import LAB_RSA_Start
+import LAB_SHA_Start
+import LAB_SRP_Start
 
 RUSSIAN_ALPHABET = ['А', 'Б', 'В', 'Г', 'Д', 'Е', 'Ж', 'З', 'И', 'Й', 'К', 'Л', 'М', 'Н', 'О', 'П', 'Р', 'С', 'Т',
                     'У', 'Ф', 'Х', 'Ц', 'Ч', 'Ш', 'Щ', 'Ъ', 'Ы', 'Ь', 'Э', 'Ю', 'Я']
@@ -17,5 +20,13 @@ RUSSIAN_ALPHABET_FREQUENCY = {'о': 0.01097, 'а': 0.00845, 'е': 0.00801, 'н':
                               'ф': 0.00026, 'ъ': 0.00004}
 
 if __name__ == '__main__':
+    print("Caesar chipper:")
     LAB1_Start.Start()
+    print("Diffie-Hellman + Rabin-Miller number generator:")
     LAB2_Start.Start()
+    print("RSA generator:")
+    LAB_RSA_Start.Start()
+    print("SHA generator:")
+    LAB_SHA_Start.Start("Hello MIREA")
+    print("SRP:")
+    LAB_SRP_Start.Start()
