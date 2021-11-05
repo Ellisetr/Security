@@ -1,5 +1,5 @@
 from DiffieHellman import MITE, MITM
-from DiffieHellman import RabinMiller
+import RabinMiller
 
 
 def Start():

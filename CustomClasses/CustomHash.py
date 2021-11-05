@@ -29,6 +29,7 @@ def hash_func(text):
 
 # Оптимизированная версия:
 def hash_func(text):
+    text = str(text)
     # Счётчик суммы кодов символов
     byte_len = 0
     # Выходная строка
@@ -52,5 +53,5 @@ def hash_func(text):
         buff = int(buff, 2) ^ int(length) ^ int(byte_len)
         # Формирование выходной строки
         output += hex(buff)[2:]
-    return output
+    return int(output, 16)
 

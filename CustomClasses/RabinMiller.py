@@ -33,3 +33,9 @@ def check(a, d, n, s):
             return False
     return True
 
+
+def SafePrimeGen():
+    N = 0
+    while primeCheck(N) is not True and primeCheck(int((N-1)/2)) is not True:
+        N = random.randint(1, 100000)
+    return N
