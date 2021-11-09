@@ -1,5 +1,5 @@
 from DiffieHellman import MITE, MITM
-import RabinMiller
+import CustomMath
 
 
 def Start():

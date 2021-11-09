@@ -23,6 +23,7 @@ calculate_m:
     Host -> User:  H(A, M, K)
 """
 
+
 class Server:
     def __init__(self, N, g, k):
         # Общие поля сервера
@@ -31,53 +32,52 @@ class Server:
         self.N = N
         self.g = g
 
-    # Добавляем в БД имя пользователя, соль и верификатор
     def add_person(self, Client_obj):
+        """Добавляет в БД имя пользователя, соль и верификатор"""
         data = Client_obj.send_registration_data()
-        self.database[data[0]] = data[1], data[2]
-        print("Данные пользователей в БД:", self.database)
+        self.database[data[0]] = hex(data[1]), hex(data[2])
+        print("Данные пользователей в БД:", self.database, "\n")
 
-    # Метод авторизации пользователя
     def login_person(self, Client_obj):
+        """Метод авторизации пользователя"""
         # Получаем запрос на вход от клиента
         data = Client_obj.send_login_data()
 
         if data[1] != 0 and data[0] in self.database:
             b = random.randint(1, 1000)
-            B = (self.k * self.database.get(data[0])[1] + pow(self.g, b, self.N)) % self.N
-
+            B = (self.k * int(self.database.get(data[0])[1], 16) + pow(self.g, b, self.N)) % self.N
             u = self.calculate_scrambler(data[1], B)
-
-            K = self.calculate_session_key(data[1], self.database.get(data[0])[1], b, u)
+            K = self.calculate_session_key(data[1], int(self.database.get(data[0])[1], 16), b, u)
             print("Ключ сессии сервера с пользователем", data[0], ":", hex(K))
 
-            # Отправляем данные, для генерации M и получаем M от клиента
-            usr_M = Client_obj.receive_login_data([self.database.get(data[0])[0], B])
+            # Отправляем данные, для генерации M1 и получаем M1 от клиента
+            usr_M = Client_obj.receive_login_data([int(self.database.get(data[0])[0],16), B])
+            M1 = self.calculate_m1(B, int(self.database.get(data[0])[0], 16), K, data[1])
 
-            M = self.calculate_m(B, self.database.get(data[0])[0], K, data[1])
-
-            # Сравниваем M клиента и сервера
-            if M == usr_M:
-                R = h.hash_func(data[1] + M + K)
-                print("Сервер: Соединение установлено, M одинаковы и равны:", hex(M), "; R равен:", hex(R), "\n")
+            # Сравниваем M1 клиента и сервера
+            if M1 == usr_M:
+                M2 = h.hash_func(data[1] + M1 + K)
+                print("Сервер: Попытка соединения с",data[0] ,", M1 одинаковы и равны:", hex(M1))
+                # Отправляем M2 для верификации на стороне клиента
+                Client_obj.receive_m2_data(M2)
             else:
                 raise Exception("Сервер: K не равны! Разрыв соединения с", data[0])
         else:
             raise Exception("Сервер: A == 0 или клиент не существует в БД! Соединение разорвано!")
 
-    # Метод генерации открытого ключа
     def calculate_session_key(self, A, v, b, u):
+        """Метод генерации открытого ключа"""
         S = pow((A * pow(v, u, self.N)), b, self.N)
         K = h.hash_func(str(S))
         return K
 
-    # Генерация M со стороны сервера
-    def calculate_m(self, B, s, K, A):
-        M = h.hash_func(h.hash_func(self.N) ^ h.hash_func(self.g) + s + A + B + K)
-        return M
+    def calculate_m1(self, B, s, K, A):
+        """Генерация M1 со стороны сервера"""
+        M1 = h.hash_func(h.hash_func(self.N) ^ h.hash_func(self.g) + s + A + B + K)
+        return M1
 
-    # Генерация скремблера со стороны сервера
     def calculate_scrambler(self, A, B):
+        """Генерация скремблера со стороны сервера"""
         u = h.hash_func(str(A + B))
         if u == 0:
             raise Exception("Сервер: Соединение разорвано")

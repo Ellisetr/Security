@@ -94,9 +94,10 @@ def check(a, d, n, s):
     return True
 
 
-decr = Decrypt(genPrime(500, 1000), genPrime(500, 1000))
-encr = Encrypt(decr.get_pub_key())
-text = encr.encr("hello world")
-print(text)
-print(decr.decr(text))
+def Start():
+    decr = Decrypt(genPrime(500, 1000), genPrime(500, 1000))
+    encr = Encrypt(decr.get_pub_key())
+    text = encr.encr("hello world")
+    print(text)
+    print(decr.decr(text))
 

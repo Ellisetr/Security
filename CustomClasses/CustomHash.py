@@ -54,4 +54,3 @@ def hash_func(text):
         # Формирование выходной строки
         output += hex(buff)[2:]
     return int(output, 16)
-
