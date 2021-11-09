@@ -20,8 +20,8 @@ class Decrypt:
         self.d = extended_equlid(self.e, self.euler)
         self.public_key = [self.e, self.n]
         self.secret_key = [self.d, self.n]
-        print(self.public_key)
-        print(self.secret_key)
+        print("Pub keys:", self.public_key)
+        print("Sec keys:", self.secret_key)
 
     def get_pub_key(self):
         return self.public_key
@@ -98,6 +98,5 @@ def Start():
     decr = Decrypt(genPrime(500, 1000), genPrime(500, 1000))
     encr = Encrypt(decr.get_pub_key())
     text = encr.encr("hello world")
-    print(text)
-    print(decr.decr(text))
-
+    print("Encrypted text:", text)
+    print("Decrypted text:", decr.decr(text),"\n")

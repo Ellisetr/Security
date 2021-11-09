@@ -1,13 +1,13 @@
 from DiffieHellman import MITE, MITM
-import CustomMath
+from CustomClasses import CustomMath
 
 
 def Start():
-    g = RabinMiller.primeGen()
-    p = RabinMiller.primeGen()
+    g = CustomMath.primeGen()
+    p = CustomMath.primeGen()
 
-    Alice = MITE.ManInTheEnd(g, p, RabinMiller.primeGen(), "Alice")
-    Bob = MITE.ManInTheEnd(g, p, RabinMiller.primeGen(), "Bob")
+    Alice = MITE.ManInTheEnd(g, p, CustomMath.primeGen(), "Alice")
+    Bob = MITE.ManInTheEnd(g, p, CustomMath.primeGen(), "Bob")
     Eve = MITM.ManInTheMiddle(g, p, "Eve")
 
     key = Alice.generate_partial_key()

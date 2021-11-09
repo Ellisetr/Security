@@ -1,5 +1,5 @@
 import random
-import CustomHash as h
+from CustomClasses import CustomHash as h
 
 # http://srp.stanford.edu/design.html общие принципы, по которым писался код
 """

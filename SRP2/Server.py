@@ -1,5 +1,5 @@
 import random
-import CustomHash as h
+from CustomClasses import CustomHash as h
 
 """
 The host stores passwords using the following formula:
