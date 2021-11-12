@@ -5,9 +5,9 @@ from SRP2 import Server
 
 def Start():
     # Генерируем N, g, и k
-    # Генерируем N и g такие, что N = 2
-    N = CustomMath.SafePrimeGen()
-    g = CustomMath.GenMult(N)
+    # Генерируем N и g такие, что N = 2*q+1, а g - генератор мультипликативной группы
+    N = CustomMath.safePrimeGen()
+    g = CustomMath.genMult(N)
     k = CustomHash.hash_func(str(N + g))
 
     # Создаём несколько пользователей, передав им N, g, имя, пароль и параметр множителя

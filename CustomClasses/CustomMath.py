@@ -2,6 +2,7 @@ import random
 
 
 def primeGen():
+    """Метод генерации простого числа"""
     gen = 0
     while primeCheck(gen) is not True:
         gen = random.randint(0, 100000)
@@ -9,6 +10,7 @@ def primeGen():
 
 
 def primeCheck(n):
+    """Проверка числа на то, простое ли оно"""
     if n % 2 == 0:
         return False
     s = 0
@@ -26,6 +28,7 @@ def primeCheck(n):
 
 
 def check(a, d, n, s):
+    """Подметод проверки числа на то, простое ли оно"""
     if pow(a, d, n) == 1:
         return False
     for i in range(s):
@@ -33,18 +36,7 @@ def check(a, d, n, s):
             return False
     return True
 
-
-def SafePrimeGen():
-    """Генератор безопасного простого"""
-    N = random.randint(1, 100000)
-    q = random.randint(1, 100000)
-    while primeCheck(N) is not True and primeCheck(q) is not True and N == 2 * q + 1:
-        N = random.randint(1, 100000)
-        q = random.randint(1, 100000)
-    return N
-
-
-def GenMult(p):
+def genMult(p):
     """Генератор мультипликативной группы"""
     f = p - 1
     n = f
@@ -59,11 +51,22 @@ def GenMult(p):
     if n > 1:
         list_mult.append(n)
     for res in range(2, p + 1):
-        ok = True
+        check = True
         i = 0
-        while i < len(list_mult) and ok:
-            ok = ok and pow(res, f // list_mult[i], p) != 1
+        while i < len(list_mult) and check:
+            check = check and pow(res, f // list_mult[i], p) != 1
             i += 1
-        if ok:
+        if check:
             return res
     return -1
+
+def safePrimeGen():
+    """Генератор безопасного простого"""
+    N = random.randint(1, 100000)
+    q = random.randint(1, 100000)
+    while primeCheck(N) is not True and primeCheck(q) is not True and N == 2 * q + 1:
+        N = random.randint(1, 100000)
+        q = random.randint(1, 100000)
+    return N
+
+

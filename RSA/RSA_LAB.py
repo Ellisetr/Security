@@ -95,8 +95,8 @@ def check(a, d, n, s):
 
 
 def Start():
-    decr = Decrypt(genPrime(500, 1000), genPrime(500, 1000))
+    decr = Decrypt(genPrime(100, 500), genPrime(100, 500))
     encr = Encrypt(decr.get_pub_key())
     text = encr.encr("hello world")
     print("Encrypted text:", text)
-    print("Decrypted text:", decr.decr(text),"\n")
+    print("Decrypted text:", decr.decr(text), "\n")
