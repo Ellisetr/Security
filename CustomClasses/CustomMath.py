@@ -63,10 +63,8 @@ def genMult(p):
 def safePrimeGen():
     """Генератор безопасного простого"""
     N = random.randint(1, 100000)
-    q = random.randint(1, 100000)
-    while primeCheck(N) is not True and primeCheck(q) is not True and N == 2 * q + 1:
+    while primeCheck(N) is False and primeCheck(int((N-1)/2)) is False:
         N = random.randint(1, 100000)
-        q = random.randint(1, 100000)
+    print(primeCheck(N))
     return N
-
 
