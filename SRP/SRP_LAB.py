@@ -1,11 +1,11 @@
-from SRP2 import Client
+from SRP import Client
 from CustomClasses import CustomHash
 from CustomClasses import CustomMath
-from SRP2 import Server
+from SRP import Server
 
 def Start():
     # Генерируем N, g, и k
-    # Генерируем N и g такие, что N = 2*q+1, а g - генератор мультипликативной группы
+    # Генерируем N и g такие, что N = 2*q+1, а g - генератор мультипликативной группы по модулю N
     N = CustomMath.safePrimeGen()
     g = CustomMath.genMult(N)
     k = CustomHash.hash_func(str(N + g))

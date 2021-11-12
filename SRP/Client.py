@@ -1,8 +1,9 @@
 import random
 from CustomClasses import CustomHash as h
 
-# http://srp.stanford.edu/design.html общие принципы, по которым писался код
 """
+http://srp.stanford.edu/design.html общие принципы, по которым писался код
+Методы и то, что они выполняют по принципам SRP
 send_login_data:
     User -> Host:  I, A = g^a                  (identifies self, a = random number)
 receive_login_data 
@@ -15,7 +16,9 @@ calculate_session_key:
     User:  K = H(S)
 Now the two parties have a shared, strong session key K. To complete authentication, they need to prove to each other that their keys match. One possible way:
 calculate_m:
-    User -> Host:  M = H(H(N) xor H(g), H(I), s, A, B, K)
+    User -> Host:  M1 = H(H(N) xor H(g), H(I), s, A, B, K)
+receive_m2_data:
+    Host -> User:  M2 = H(A, M, K)
 """
 
 
@@ -27,7 +30,7 @@ class Client:
 
         # Поля для хранения доп. данных
         self.A = None
-        self.session_key = None
+        self.S = None
         self.a = None
 
         # Создание полей имени и пароля в классе пользователя
@@ -46,7 +49,7 @@ class Client:
         # Создание верификатора возведением в степень g, закрытого ключа по модулю N
         self.verifier = self.generate_verifier()
 
-        self.M = None
+        self.M1 = None
         self.K = None
 
         print("Соль пользователя", self.name, ":", hex(self.salt))
@@ -82,13 +85,14 @@ class Client:
         self.calculate_scrambler(self.A, B)
         return self.calculate_session_key(s, B)
 
+    # Получение M2 с сервера и сравнения с собственным
     def receive_m2_data(self, data):
         """Метод получения и сравнения M2"""
-        M2 = h.hash_func(self.A + self.M + self.K)
+        M2 = h.hash_func(self.A + self.M1 + self.K)
         if data == M2:
-            print("Клиент", self.name, ": Соединение с сервером установлено, M2 одинаковы и равны", hex(M2),"\n")
+            print("Клиент", self.name, ": Соединение с сервером установлено, M2 одинаковы и равны", hex(M2), "\n")
         else:
-            print("Клиент", self.name, "M2 не равны, соединение разорвано \n")
+            print("Клиент", self.name, ": M2 не равны, соединение разорвано! \n")
 
     # Вычисление ключа сессии на основе соли и B, а также отправка M серверу
     def calculate_session_key(self, s, B):
@@ -96,24 +100,24 @@ class Client:
         if B != 0:
             u = self.calculate_scrambler(self.A, B)
             x = h.hash_func(str(self.salt) + self.password)
-            self.session_key = pow((B - self.k * (pow(self.g, x, self.N))), (self.a + u * x), self.N)
-            self.K = h.hash_func(self.session_key)
-            self.M = self.calculate_m1(B, s, self.K)
-            print("Ключ сессии пользователя", self.name, ":", hex(self.K),"\n")
-            return self.M
+            self.S = pow((B - self.k * (pow(self.g, x, self.N))), (self.a + u * x), self.N)
+            self.K = h.hash_func(self.S)
+            self.M1 = self.calculate_m1(B, s, self.K)
+            print("Ключ сессии пользователя", self.name, ":", hex(self.K), "\n")
+            return self.M1
         else:
             raise Exception("Клиент", self.name, ":B != 0! Соединение разорвано!")
 
     # Генерация M со стороны клиента
     def calculate_m1(self, B, s, K):
         """Генерация M со стороны сервера"""
-        M = h.hash_func(h.hash_func(self.N) ^ h.hash_func(self.g) + s + self.A + B + K)
-        return M
+        M1 = h.hash_func(h.hash_func(self.N) ^ h.hash_func(self.g) + s + self.A + B + K)
+        return M1
 
     # Вычислине скремблера
     def calculate_scrambler(self, A, B):
-        """Генерация скремблера со стороны сервера"""
-        u = h.hash_func(A + B)
+        """Генерация скремблера со стороны клиента"""
+        u = h.hash_func(str(A + B))
         if u == 0:
-            raise Exception("Разрыва соединения")
+            raise Exception(self.name, ": U == 0! Разрыв соединения!")
         return u

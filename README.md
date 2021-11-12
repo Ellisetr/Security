@@ -14,4 +14,4 @@ main.py - запуск всех работ последовательно \
 LAB1/LAB1_Start.py - Частотный анализ \
 DiffieHellman/LAB2_Start.py - Диффи-Хеллман\
 RSA/RSA_LAB.py - RSA\
-SRP2/SRP_LAB.py - SRP
+SRP/SRP_LAB.py - SRP

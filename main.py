@@ -2,7 +2,7 @@ from CustomClasses import CustomHash
 from LAB1 import LAB1_Start
 from DiffieHellman import LAB2_Start
 from RSA import RSA_LAB
-from SRP2 import SRP_LAB
+from SRP import SRP_LAB
 
 if __name__ == '__main__':
     print("Caesar chipper:")

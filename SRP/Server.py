@@ -2,6 +2,8 @@ import random
 from CustomClasses import CustomHash as h
 
 """
+http://srp.stanford.edu/design.html общие принципы, по которым писался код
+Методы и то, что они выполняют по принципам SRP
 The host stores passwords using the following formula:
   x = H(s, p)               (s is chosen randomly)
   v = g^x                   (computes password verifier)
@@ -18,9 +20,9 @@ calculate_session_key:
     Host:  S = (Av^u) ^ b              (computes session key)
     Host:  K = H(S)
     Now the two parties have a shared, strong session key K. To complete authentication, they need to prove to each other that their keys match. One possible way:
-calculate_m:
-    User -> Host:  M = H(H(N) xor H(g), H(I), s, A, B, K)
-    Host -> User:  H(A, M, K)
+calculate_m1:
+    User -> Host:  M1 = H(H(N) xor H(g), H(I), s, A, B, K)
+    Host -> User:  M2 = H(A, M, K)
 """
 
 
@@ -51,17 +53,17 @@ class Server:
             print("Ключ сессии сервера с пользователем", data[0], ":", hex(K))
 
             # Отправляем данные, для генерации M1 и получаем M1 от клиента
-            usr_M = Client_obj.receive_login_data([int(self.database.get(data[0])[0],16), B])
+            usr_M1 = Client_obj.receive_login_data([int(self.database.get(data[0])[0], 16), B])
             M1 = self.calculate_m1(B, int(self.database.get(data[0])[0], 16), K, data[1])
 
             # Сравниваем M1 клиента и сервера
-            if M1 == usr_M:
+            if M1 == usr_M1:
                 M2 = h.hash_func(data[1] + M1 + K)
-                print("Сервер: Попытка соединения с",data[0] ,", M1 одинаковы и равны:", hex(M1))
+                print("Сервер: Попытка соединения с", data[0], ", M1 одинаковы и равны:", hex(M1))
                 # Отправляем M2 для верификации на стороне клиента
                 Client_obj.receive_m2_data(M2)
             else:
-                raise Exception("Сервер: K не равны! Разрыв соединения с", data[0])
+                raise Exception("Сервер: M1 не равны! Разрыв соединения с", data[0],"!")
         else:
             raise Exception("Сервер: A == 0 или клиент не существует в БД! Соединение разорвано!")
 
@@ -80,5 +82,5 @@ class Server:
         """Генерация скремблера со стороны сервера"""
         u = h.hash_func(str(A + B))
         if u == 0:
-            raise Exception("Сервер: Соединение разорвано")
+            raise Exception("Сервер: U == 0! Разрыв соединения!")
         return u
